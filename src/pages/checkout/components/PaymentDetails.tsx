@@ -7,13 +7,17 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 
-function PaymentDetail(props) {
+interface IPropsPaymentDetail {
+  setValidation: (item: boolean) => void;
+}
+
+function PaymentDetail(props: IPropsPaymentDetail) {
   const { setValidation } = props;
 
-  const [cardName, setCardName] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [cardExpiryDate, setCardExpiryDate] = useState("");
-  const [cardCVV, setCardCVV] = useState("");
+  const [cardName, setCardName] = useState<string>("");
+  const [cardNumber, setCardNumber] = useState<string>("");
+  const [cardExpiryDate, setCardExpiryDate] = useState<string>("");
+  const [cardCVV, setCardCVV] = useState<string>("");
 
   const processValidate = () => {
     if (cardName === "") {
@@ -33,7 +37,7 @@ function PaymentDetail(props) {
     processValidate();
   }, [cardName, cardNumber, cardExpiryDate, cardCVV]);
 
-  const renderTextField = ({ id, label, setState, ...props }) => {
+  const renderTextField = (id: string, label: string, handleFunc: (item: string) => void, helperText?: string) => {
     return (
       <Grid item xs={12} md={6}>
         <TextField
@@ -42,8 +46,8 @@ function PaymentDetail(props) {
           label={label}
           variant="standard"
           fullWidth
-          {...props}
-          onChange={(e) => setState(e.target.value)}
+          helperText={helperText}
+          onChange={(e) => handleFunc(e.target.value)}
         />
       </Grid>
     );
@@ -52,27 +56,10 @@ function PaymentDetail(props) {
   return (
     <Box component="form" autoComplete="off">
       <Grid container spacing={2}>
-        {renderTextField({
-          id: "cardName",
-          label: "Name on Card",
-          setState: setCardName,
-        })}
-        {renderTextField({
-          id: "cardNumber",
-          label: "Card number",
-          setState: setCardNumber,
-        })}
-        {renderTextField({
-          id: "cardExpiryDate",
-          label: "Expiry date",
-          setState: setCardExpiryDate,
-        })}
-        {renderTextField({
-          id: "cardCVV",
-          label: "CVV",
-          setState: setCardCVV,
-          helperText: "Last three digits on signature strip",
-        })}
+        {renderTextField("cardName","Name on Card", setCardName)}
+        {renderTextField( "cardNumber", "Card number", setCardNumber)}
+        {renderTextField("cardExpiryDate", "Expiry date", setCardExpiryDate)}
+        {renderTextField("cardCVV",  "CVV", setCardCVV,"Last three digits on signature strip")}
 
         <Grid item xs={12} md={12}>
           <FormControlLabel

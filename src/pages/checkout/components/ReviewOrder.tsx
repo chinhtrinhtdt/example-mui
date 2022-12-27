@@ -1,7 +1,7 @@
 import { Grid, List, ListItem, ListItemText, Typography } from "@mui/material";
 
 function ReviewOrder() {
-  const listItem = [
+  const listItem: any[] = [
     {
       id: 1,
       name: "Product 1",
@@ -37,7 +37,7 @@ function ReviewOrder() {
     </List>
   ));
 
-  const renderItem = (desciption) => (
+  const renderItem = (desciption: string) => (
     <Grid item xs={6} sx={{ p: 0 }}>
       <Typography component="span">{desciption}</Typography>
     </Grid>

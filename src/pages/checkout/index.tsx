@@ -10,21 +10,25 @@ import {
 } from "@mui/material";
 
 import { useState } from "react";
+import ShippingAddress from "./components/ShippingAddress";
 import FinishOrder from "./components/FinishOrder";
 import PaymentDetails from "./components/PaymentDetails";
 import ReviewOrder from "./components/ReviewOrder";
-import ShippingAddress from "./components/ShippingAddress";
 
-const steps = ["Shipping address", "Payment details", "Review your order"];
+const steps: string[] = [
+  "Shipping address",
+  "Payment details",
+  "Review your order",
+];
 
 function Checkout() {
-  const [activeStep, setActiveStep] = useState(0);
-  const [validation, setValidation] = useState(false);
+  const [activeStep, setActiveStep] = useState<number>(0);
+  const [validation, setValidation] = useState<boolean>(false);
 
   const handleNext = () => {
     if (!validation && activeStep < 2) {
       setActiveStep(activeStep);
-      setValidation(true)
+      setValidation(true);
     } else if (steps.length !== activeStep) {
       setActiveStep(activeStep + 1);
       setValidation(false);
@@ -96,7 +100,11 @@ function Checkout() {
               >
                 Back
               </Button>
-              <Button onClick={handleNext} variant="contained" disabled= {!validation && activeStep < 2}>
+              <Button
+                onClick={handleNext}
+                variant="contained"
+                disabled={!validation && activeStep < 2}
+              >
                 {activeStep === steps.length - 1 ? "Place order" : "Next"}
               </Button>
             </Box>
