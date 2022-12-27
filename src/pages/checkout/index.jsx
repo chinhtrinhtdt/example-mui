@@ -15,20 +15,30 @@ import PaymentDetails from "./components/PaymentDetails";
 import ReviewOrder from "./components/ReviewOrder";
 import ShippingAddress from "./components/ShippingAddress";
 
-const steps = ["Shipping address", "Payment details", "Review your code"];
+const steps = ["Shipping address", "Payment details", "Review your order"];
 
 function Checkout() {
   const [activeStep, setActiveStep] = useState(0);
   const [validation, setValidation] = useState(false);
 
   const handleNext = () => {
-    !validation
-      ? setActiveStep(activeStep)
-      : steps.length !== activeStep && setActiveStep(activeStep + 1);
+    if (!validation && activeStep < 2) {
+      setActiveStep(activeStep);
+      setValidation(true)
+    } else if (steps.length !== activeStep) {
+      setActiveStep(activeStep + 1);
+      setValidation(false);
+    }
   };
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
+    setValidation(false);
+  };
+
+  const handleBackStepFirst = () => {
+    setActiveStep(0);
+    setValidation(false);
   };
 
   const renderCheckoutStep = () => {
@@ -71,7 +81,7 @@ function Checkout() {
         {activeStep === steps.length ? (
           <Box>
             <FinishOrder />
-            <Button onClick={() => setActiveStep(0)}>Back</Button>
+            <Button onClick={handleBackStepFirst}>Back</Button>
           </Box>
         ) : (
           <Box>
@@ -86,7 +96,7 @@ function Checkout() {
               >
                 Back
               </Button>
-              <Button onClick={handleNext} variant="contained">
+              <Button onClick={handleNext} variant="contained" disabled= {!validation && activeStep < 2}>
                 {activeStep === steps.length - 1 ? "Place order" : "Next"}
               </Button>
             </Box>

@@ -38,10 +38,8 @@ function ReviewOrder() {
   ));
 
   const renderItem = (desciption) => (
-    <Grid item xs={6}>
-      <Typography component="p" sx={{ p: 0 }}>
-        {desciption}
-      </Typography>
+    <Grid item xs={6} sx={{ p: 0 }}>
+      <Typography component="span">{desciption}</Typography>
     </Grid>
   );
 
@@ -80,7 +78,7 @@ function ReviewOrder() {
             <strong>Payment Detail</strong>
           </Typography>
 
-          <Grid container spacing={2} sx={{ m: 0 }}>
+          <Grid container spacing={2}>
             {renderItem("Card type")}
             {renderItem("Visa")}
             {renderItem("Card holder")}
